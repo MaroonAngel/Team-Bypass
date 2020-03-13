@@ -2,16 +2,12 @@ package com.github.maroonangel.mixin;
 
 import com.github.maroonangel.TeamBypass;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.dedicated.DedicatedPlayerManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DedicatedPlayerManager.class)
 public class DedicatedPlayerManagerMixin extends PlayerManager {

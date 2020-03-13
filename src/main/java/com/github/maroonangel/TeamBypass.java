@@ -3,7 +3,6 @@ package com.github.maroonangel;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import javafx.scene.control.TextFormatter;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.fabricmc.loader.api.FabricLoader;
