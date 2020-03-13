@@ -34,7 +34,6 @@ public class TeamBypass implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
 		LOGGER.info("[TeamBypass] Loading TeamBypass...");
 		config = BypassConfig.loadConfig(new File(configDirectory.toString() + "/TeamBypassConfig.json"));
 
@@ -42,7 +41,6 @@ public class TeamBypass implements ModInitializer {
 	}
 
 	private void RegisterCommand() {
-
 		// Bypass command
 		CommandRegistry.INSTANCE.register(true, serverCommandSourceCommandDispatcher -> serverCommandSourceCommandDispatcher.register(
 			CommandManager.literal("bypass")
@@ -56,7 +54,7 @@ public class TeamBypass implements ModInitializer {
 		));
 	}
 
-	public static int addTeam(ServerCommandSource source, String team) throws CommandSyntaxException {
+	private static int addTeam(ServerCommandSource source, String team) throws CommandSyntaxException {
 		PlayerEntity player = source.getPlayer();
 
 		if (team == "") {
@@ -64,19 +62,15 @@ public class TeamBypass implements ModInitializer {
 			return 0;
 		}
 
-
-
 		if (GetTeamNames(source).contains(team) && !config.bypassTeams.contains(team)) {
 			config.bypassTeams.add(team);
 			config.saveConfig(new File(configDirectory.toString() + "/TeamBypassConfig.json"));
 			player.sendMessage(new TranslatableText("[TeamBypass] ").setStyle(new Style().setColor(Formatting.GOLD)).append(new TranslatableText(team + " was added to the bypass list.").setStyle(new Style().setColor(Formatting.YELLOW))));
 			return Command.SINGLE_SUCCESS;
-		}
-		else if (config.bypassTeams.contains(team)) {
+		} else if (config.bypassTeams.contains(team)) {
 			player.sendMessage(new TranslatableText("[TeamBypass] ").setStyle(new Style().setColor(Formatting.GOLD)).append(new TranslatableText(team + " is already in the bypass list.").setStyle(new Style().setColor(Formatting.YELLOW))));
 			return 0;
-		}
-		else {
+		} else {
 			player.sendMessage(new TranslatableText("[TeamBypass] ").setStyle(new Style().setColor(Formatting.GOLD)).append(new TranslatableText("That team does not exist.").setStyle(new Style().setColor(Formatting.YELLOW))));
 			return 0;
 		}
@@ -101,13 +95,12 @@ public class TeamBypass implements ModInitializer {
 		}
 	}
 
-	public static int listTeams(ServerCommandSource source) throws CommandSyntaxException {
+	private static int listTeams(ServerCommandSource source) throws CommandSyntaxException {
 		PlayerEntity player = source.getPlayer();
 		if (config.bypassTeams.size() > 0)
 			player.sendMessage(new TranslatableText("[TeamBypass] ").setStyle(new Style().setColor(Formatting.GOLD)).append(new TranslatableText("Current bypass teams: " + config.bypassTeams.toString()).setStyle(new Style().setColor(Formatting.YELLOW))));
 		else
 			player.sendMessage(new TranslatableText("[TeamBypass] ").setStyle(new Style().setColor(Formatting.GOLD)).append(new TranslatableText("There are no teams in the bypass list.").setStyle(new Style().setColor(Formatting.YELLOW))));
-
 
 		return Command.SINGLE_SUCCESS;
 	}
