@@ -3,6 +3,7 @@ build/
 out/
 classes/
 .idea/
+run/
 *.iml
 *.ipr
 *.iws

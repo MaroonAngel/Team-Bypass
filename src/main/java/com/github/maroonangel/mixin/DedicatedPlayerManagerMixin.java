@@ -1,15 +1,33 @@
 package com.github.maroonangel.mixin;
 
+import com.github.maroonangel.TeamBypass;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.scoreboard.Team;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.PlayerManager;
+import net.minecraft.server.dedicated.DedicatedPlayerManager;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(TitleScreen.class)
-public class DedicatedPlayerManagerMixin {
-	@Inject(at = @At("HEAD"), method = "init()V")
-	private void init(CallbackInfo info) {
-		System.out.println("This line is printed by an example mod mixin!");
+@Mixin(DedicatedPlayerManager.class)
+public class DedicatedPlayerManagerMixin extends PlayerManager {
+
+	public DedicatedPlayerManagerMixin(MinecraftServer server, int maxPlayers) {
+		super(server, maxPlayers);
+	}
+
+	@Overwrite
+	public boolean canBypassPlayerLimit(GameProfile gameProfile) {
+		Team playerTeam = getServer().getScoreboard().getPlayerTeam(gameProfile.getName());
+
+		if (playerTeam != null) {
+			String teamName = playerTeam.getDisplayName().asFormattedString();
+			return (this.getOpList().isOp(gameProfile) || TeamBypass.config.bypassTeams.contains(teamName));
+		} else
+			return this.getOpList().isOp(gameProfile);
 	}
 }
